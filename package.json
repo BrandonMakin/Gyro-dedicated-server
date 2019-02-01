@@ -1,0 +1,21 @@
+{
+  "name": "node_server",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "phone",
+    "controller",
+    "game"
+  ],
+  "author": "Brandon Makin",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.16.4",
+    "quaternion": "^2.0.0",
+    "socket.io": "^2.2.0"
+  }
+}

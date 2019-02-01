@@ -1,0 +1,80 @@
+{
+  "_from": "default-network",
+  "_id": "default-network@0.2.0",
+  "_inBundle": false,
+  "_integrity": "sha1-GV/uZicGyF5VCmltrr4sldHDWZE=",
+  "_location": "/default-network",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "default-network",
+    "name": "default-network",
+    "escapedName": "default-network",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/default-network/-/default-network-0.2.0.tgz",
+  "_shasum": "195fee662706c85e550a696daebe2c95d1c35991",
+  "_spec": "default-network",
+  "_where": "C:\\Users\\bmicm\\OneDrive\\Documents\\GitHub\\Phone-Controllers\\2\\node_server",
+  "author": {
+    "name": "Masayuki Higashino",
+    "email": "mh.on.web@gmail.com",
+    "url": "http://msyk.hgsn.info"
+  },
+  "bugs": {
+    "url": "https://github.com/mh61503891/node-default-network/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "async": "1.5.0",
+    "coffee-script": "1.10.0",
+    "csv-parse": "1.0.1"
+  },
+  "deprecated": false,
+  "description": "A Node.js module to get default gateway and default interface.",
+  "devDependencies": {
+    "chai": "3.4.1",
+    "coffeelint-stylish": "0.1.2",
+    "gulp": "3.9.0",
+    "gulp-coffeelint": "0.5.0",
+    "gulp-jsonlint": "1.1.1",
+    "gulp-load-plugins": "1.1.0",
+    "gulp-mocha": "2.2.0",
+    "mocha": "2.3.4",
+    "mocha-clean": "1.0.0"
+  },
+  "homepage": "https://github.com/mh61503891/node-default-network#readme",
+  "keywords": [
+    "win32",
+    "darwin",
+    "linux",
+    "net",
+    "network",
+    "child_process",
+    "wmi",
+    "route"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "default-network",
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mh61503891/node-default-network.git"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "version": "0.2.0"
+}
