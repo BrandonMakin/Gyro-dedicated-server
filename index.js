@@ -1,4 +1,5 @@
-webPort = 8000
+webPort = 8080
+tcpPort = 8000
 gdPort = 8001
 let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "send_game_id":7, "qr":8, "ping":9})
 
@@ -8,7 +9,7 @@ const quaternion = require('quaternion')
 const os = require('os')
 let express = require('express')
 let app = express()
-let server = app.listen(8001) // change back to 8000 later
+let server = app.listen(webPort) // change back to 8000 later
 app.use(express.static('www'))
 
 let socket = require('socket.io')
