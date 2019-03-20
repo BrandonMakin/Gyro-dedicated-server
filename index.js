@@ -147,16 +147,23 @@ tcpServer.on('close', () => {
   console.log('Server disconnected')
 })
 
-// Event listner for error events 
+// Event listner for error events
 tcpServer.on('error', error => {
   console.log(`Error : ${error}`)
 })
 
+process.on('uncaughtException', function (err) {
+  if (err.errno != 'ECONNRESET')
+    throw err
+  else
+    console.log("(Ignoring error) " + err)
+})
+
 function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
-  bufferedMessage = Buffer.from(msg)  
+  bufferedMessage = Buffer.from(msg)
   console.log("------------------------------------")
-  console.log("client.send(" + bufferedMessage + ", 0, " + bufferedMessage.length + ", " + gdPort 
+  console.log("client.send(" + bufferedMessage + ", 0, " + bufferedMessage.length + ", " + gdPort
   + ", " + godotIp + ", function(err, bytes)")
   client.send(bufferedMessage, 0, bufferedMessage.length, gdPort, godotIp, function(err, bytes) {
       if (err) throw err
