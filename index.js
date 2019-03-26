@@ -163,16 +163,38 @@ tcpServer.on('close', () => {
   console.log('Server disconnected')
 })
 
-// Event listner for error events 
+// Event listner for error events
 tcpServer.on('error', error => {
   console.log(`Error : {error}`)
 })
 
+<<<<<<< HEAD
 // SENDS data to Godot via TCP Socket generated with NET (upon running game in Godot)
 function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)  
   godotSocket.write(msg)
+=======
+process.on('uncaughtException', function (err) {
+  if (err.errno != 'ECONNRESET')
+    throw err
+  else
+    console.log("(Ignoring error) " + err)
+})
+
+function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
+  msg = "" + code + msg
+  bufferedMessage = Buffer.from(msg)
+  console.log("------------------------------------")
+  console.log("client.send(" + bufferedMessage + ", 0, " + bufferedMessage.length + ", " + gdPort
+  + ", " + godotIp + ", function(err, bytes)")
+  client.send(bufferedMessage, 0, bufferedMessage.length, gdPort, godotIp, function(err, bytes) {
+      if (err) throw err
+      console.log('UDP message sent to ' + gdPort +':'+ godotIp)
+      // console.log('UDP message sent to localhost:'+ gdPort)
+      // client.close()
+  })
+>>>>>>> ddbad3ba5e0b0044800ff3e613ca9a0d63ac9ddd
 }
 
 function get_quat(data, id)
