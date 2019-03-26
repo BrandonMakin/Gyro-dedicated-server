@@ -1,23 +1,31 @@
+// Port for Players to Connect to:
 webPort = 8080
+// Port for Godot Game Hosts to connect to:
 tcpPort = 8000
-gdPort = 8001
+
 let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "send_game_id":7, "qr":8, "ping":9})
 
 console.log("Server is starting up...")
 
 const quaternion = require('quaternion')
 const os = require('os')
+
+// Hosts web-page (Player controller) and creates server that listens for Players
 let express = require('express')
 let app = express()
-let server = app.listen(webPort) // change back to 8000 later
+let server = app.listen(webPort)
 app.use(express.static('www'))
 
+// High level framework for making asynchronus calls from Players interacting
+// with the web-page (controller)
 let socket = require('socket.io')
 let io = socket(server)
 io.sockets.on('connection', newConnection)
 
-var godotIp = "localhost"
+// This is essentially replaced with having one port be for 'starting the game' (8000)
+// And the other port open for 'player connections' (8080)
 
+// replaces functionality of ('ec2amazonsheeit:8000 and ec2amazonsheeit:8000/start)
 app.get("/start", function(req, res)
 {
   res.send("")
@@ -28,9 +36,12 @@ app.get("/start", function(req, res)
   sendToGodot("Hello", GD_CODE.send_game_id)
 })
 
+
+// Communicates with 'www.js' buttons. Gets data from device and eventually 
+// sends to a Godot Host TCP socket
 function newConnection(socket)
 {
-  console.log("New connection: " + socket.id)
+  console.log("New Player connected on PORT 8080: " + socket.id)
   sendToGodot(socket.id, GD_CODE.connect)
 
   socket.on('rotate', on_rotate)
@@ -114,17 +125,21 @@ function newConnection(socket)
       // console.log("BUTTON - accel - " + data)
       sendToGodot('{"n":"accel","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
   }
-
 }
 
 /////////////////////////////////////////////////////////////////////////
-//code to communicate with godot
+// TCP code that manages connection between AWS and Godot Host
+// Data from Express sockets calling (sendToGodot) is sent through the TCP socket
+// <godotSocket>
+
+// Eventually for multiple games, I think you will want an array that stores
+// all sockets returned from 'connection's made to PORT 8000 
 var net = require('net')
 
-// Stores the Godot Game host IP address, and Player IP addresses
+// Stores the Godot Game host IP addresses
 var godotSocket
-var clients = {}
-let clientCount = 0
+// var hosts = {}
+// let hostCount = 0
 
 // Stores the 'net.Server' object returned by 'net.createServer()'
 var tcpServer = net.createServer().listen(8000)
@@ -138,7 +153,8 @@ tcpServer.on('connection', socket => {
     // send welcome message to host
     socket.write("Welcome " + socket.name + "\n")
     socket.write("You are the Godot Game host")
-    console.log("New Connection")
+    socket.write("You are being connected to from a REMOTE server")
+    console.log("New TCP connection on PORT 8000: Godot Game")
     socket.pipe(socket)
 })
 
@@ -149,21 +165,14 @@ tcpServer.on('close', () => {
 
 // Event listner for error events 
 tcpServer.on('error', error => {
-  console.log(`Error : ${error}`)
+  console.log(`Error : {error}`)
 })
 
+// SENDS data to Godot via TCP Socket generated with NET (upon running game in Godot)
 function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)  
-  console.log("------------------------------------")
-  console.log("client.send(" + bufferedMessage + ", 0, " + bufferedMessage.length + ", " + gdPort 
-  + ", " + godotIp + ", function(err, bytes)")
-  client.send(bufferedMessage, 0, bufferedMessage.length, gdPort, godotIp, function(err, bytes) {
-      if (err) throw err
-      console.log('UDP message sent to ' + gdPort +':'+ godotIp)
-      // console.log('UDP message sent to localhost:'+ gdPort)
-      // client.close()
-  })
+  godotSocket.write(msg)
 }
 
 function get_quat(data, id)
