@@ -37,7 +37,7 @@ app.get("/start", function(req, res)
 })
 
 
-// Communicates with 'www.js' buttons. Gets data from device and eventually 
+// Communicates with 'www.js' buttons. Gets data from device and eventually
 // sends to a Godot Host TCP socket
 function newConnection(socket)
 {
@@ -133,7 +133,7 @@ function newConnection(socket)
 // <godotSocket>
 
 // Eventually for multiple games, I think you will want an array that stores
-// all sockets returned from 'connection's made to PORT 8000 
+// all sockets returned from 'connection's made to PORT 8000
 var net = require('net')
 
 // Stores the Godot Game host IP addresses
@@ -163,7 +163,7 @@ tcpServer.on('close', () => {
   console.log('Server disconnected')
 })
 
-// Event listner for error events 
+// Event listner for error events
 tcpServer.on('error', error => {
   console.log(`Error : {error}`)
 })
@@ -171,7 +171,7 @@ tcpServer.on('error', error => {
 // SENDS data to Godot via TCP Socket generated with NET (upon running game in Godot)
 function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
-  bufferedMessage = Buffer.from(msg)  
+  bufferedMessage = Buffer.from(msg)
   godotSocket.write(msg)
 }
 
@@ -182,3 +182,10 @@ function get_quat(data, id)
     quat.id = id
     return quat
 }
+
+process.on('uncaughtException', function (err) {
+  if (err.errno != 'ECONNRESET')
+    throw err
+  else
+    console.log("(Ignoring error) " + err)
+})
