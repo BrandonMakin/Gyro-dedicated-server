@@ -9,17 +9,17 @@ function setup() {
 
   data = { x: 1000, y: 1000, z: 1000 }
 
-  button_shoot = createButton('SHOOT');
-  button_shock = createButton('SHOCK');
-  button_accel = createButton('ACCELERATE');
+  button_shoot = createButton("");
+  button_shock = createButton("[-]");
+  button_accel = createButton("");
 
   button_shoot.position(0, 0);
-  button_shock.position(width/5, 0);
-  button_accel.position(4*width/5, 0);
+  button_shock.position(0, height/4);
+  button_accel.position(0, 3*height/4);
 
-  button_shoot.size(width/5, height)
-  button_shock.size(3*width/5, height)
-  button_accel.size(width/5, height)
+  button_shoot.size(width, height/4)
+  button_shock.size(width, 2*height/4)
+  button_accel.size(width, height/4)
 
   button_shoot.mousePressed(on_button_shoot);
   button_shock.mousePressed(on_button_shock);
@@ -29,12 +29,16 @@ function setup() {
   button_shock.mouseReleased(on_button_shock_release);
   button_accel.mouseReleased(on_button_accel_release);
 
-  button_shoot.style('background-color', "224422")
-  button_shock.style('background-color', "40c080")
-  button_accel.style('background-color', "224422")
+  button_shoot.style('background-color', "aaaa11")
+  button_shock.style('background-color', "ffffff")
+  button_accel.style('background-color', "222244")
 
   button_shoot.style('color', "ffffff")
   button_accel.style('color', "ffffff")
+
+  button_shoot.style('font-size', "50")
+  button_shock.style('font-size', "50")
+  button_accel.style('font-size', "50")
 
   //button_shoot
   //button_shock
