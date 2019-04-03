@@ -102,6 +102,7 @@ function newConnection(socket)
     // let msg = JSON.stringify(quat)
     let msg = JSON.stringify({id:socket.id, a:angle, t:tilt})
     sendToGodot(msg, GD_CODE.rotate)
+    console.log(msg)
   }
 
   function on_disconnect(reason)

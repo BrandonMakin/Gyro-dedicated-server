@@ -119,6 +119,7 @@ function handleMotionEvent(e)
      // print("sending data")
      data = newData;
      emit('rotate', data);
+     print(data);
   }
 }
 
