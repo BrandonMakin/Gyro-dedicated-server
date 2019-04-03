@@ -8,10 +8,10 @@ document.ontouchmove = function(event){
 /*
   Stops the screen from ever going to sleep:
 */
-var noSleep = new NoSleep();
-function enableNoSleep() {
-  noSleep.enable();
-  document.removeEventListener('click', enableNoSleep, false);
-  // window.alert("Let's gooooooooo");
-  startButton.remove()
-}
+// var noSleep = new NoSleep();
+// function enableNoSleep() {
+//   noSleep.enable();
+//   document.removeEventListener('click', enableNoSleep, false);
+//   // window.alert("Let's gooooooooo");
+//   startButton.remove()
+// }
