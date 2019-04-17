@@ -151,10 +151,11 @@ tcpServer.on('connection', socket => {
     socket.name = socket.remoteAddress + ":" + socket.remotePort
     // save host connection (will send all controller data to this socket)
     godotSocket = socket
-    // send welcome message to host
-    socket.write("Welcome " + socket.name + "\n")
-    socket.write("You are the Godot Game host")
-    socket.write("You are being connected to from a REMOTE server")
+    sendToGodot(id(5), GD_CODE.send_game_id)
+    // // send welcome message to host
+    // socket.write("Welcome " + socket.name + "\n")
+    // socket.write("You are the Godot Game host")
+    // socket.write("You are being connected to from a REMOTE server")
     console.log("New TCP connection on PORT 8000: Godot Game")
     socket.pipe(socket)
 })
@@ -190,3 +191,13 @@ process.on('uncaughtException', function (err) {
   else
     console.log("(Ignoring error) " + err)
 })
+
+function id(length) {
+  var text = "";
+  var possible = "abcdefghjkmnpqrstuvwxyz123456789";  // id can consist of lower case letters and numbers, excluding: i,l,o,0 (to avoid ambiguity)
+
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
