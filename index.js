@@ -16,6 +16,7 @@ let app = express()
 let server = app.listen(webPort)
 app.use(express.static('www'))
 
+
 // High level framework for making asynchronus calls from Players interacting
 // with the web-page (controller)
 let socket = require('socket.io')
@@ -44,11 +45,18 @@ function newConnection(socket)
   console.log("New Player connected on PORT 8080: " + socket.id)
   sendToGodot(socket.id, GD_CODE.connect)
 
+  socket.on('gameid', join_game_by_id)
   socket.on('rotate', on_rotate)
   socket.on('disconnect', on_disconnect)
   socket.on('bshoot', on_button_shoot)
   socket.on('bshock', on_button_shock)
   socket.on('baccel', on_button_accel)
+
+  // each game is given its own Socket.IO channel
+  function join_game_by_id(id)
+  {
+
+  }
 
   function on_rotate(data)
   {
@@ -137,10 +145,10 @@ function newConnection(socket)
 // all sockets returned from 'connection's made to PORT 8000
 var net = require('net')
 
+// Map of all active games
 // Stores the Godot Game host IP addresses
+let games = new Map()
 var godotSocket
-// var hosts = {}
-// let hostCount = 0
 
 // Stores the 'net.Server' object returned by 'net.createServer()'
 var tcpServer = net.createServer().listen(8000)
@@ -149,9 +157,19 @@ var tcpServer = net.createServer().listen(8000)
 tcpServer.on('connection', socket => {
     // identify host (for now first user to visit site or site/start --> only site/start)
     socket.name = socket.remoteAddress + ":" + socket.remotePort
+    // generate id to identify the game host in the future
+    var new_id = id(5)
+    // avoid dublicate ids
+    if games.has(new_id)
+      return
     // save host connection (will send all controller data to this socket)
+    games.set(new_id, socket)
+
+    // legacy:
     godotSocket = socket
-    sendToGodot(id(5), GD_CODE.send_game_id)
+
+    // send game id to host
+    sendToGodot(new_id, GD_CODE.send_game_id)
     // // send welcome message to host
     // socket.write("Welcome " + socket.name + "\n")
     // socket.write("You are the Godot Game host")
