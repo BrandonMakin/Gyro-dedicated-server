@@ -3,6 +3,10 @@ webPort = 8080
 // Port for Godot Game Hosts to connect to:
 tcpPort = 8000
 
+// Map of all active games (Stores the Godot Game host IP addresses)
+const games = new Map()
+var godotSocket
+
 let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "send_game_id":7, "qr":8, "ping":9})
 
 console.log("Server is starting up...")
@@ -145,11 +149,6 @@ function newConnection(socket)
 // all sockets returned from 'connection's made to PORT 8000
 var net = require('net')
 
-// Map of all active games
-// Stores the Godot Game host IP addresses
-let games = new Map()
-var godotSocket
-
 // Stores the 'net.Server' object returned by 'net.createServer()'
 var tcpServer = net.createServer().listen(8000)
 
@@ -160,7 +159,7 @@ tcpServer.on('connection', socket => {
     // generate id to identify the game host in the future
     var new_id = id(5)
     // avoid dublicate ids
-    if games.has(new_id)
+    if (games.has(new_id))
       return
     // save host connection (will send all controller data to this socket)
     games.set(new_id, socket)
