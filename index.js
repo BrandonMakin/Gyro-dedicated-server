@@ -25,7 +25,7 @@ app.use(express.static('www'))
 // with the web-page (controller)
 let socket = require('socket.io')
 let io = socket(server)
-io.sockets.on('connection', newConnection)
+io.sockets.on('connection', on_connect)
 
 // This is essentially replaced with having one port be for 'starting the game' (8000)
 // And the other port open for 'player connections' (8080)
@@ -44,22 +44,32 @@ app.get("/start", function(req, res)
 
 // Communicates with 'www.js' buttons. Gets data from device and eventually
 // sends to a Godot Host TCP socket
-function newConnection(socket)
+function on_connect(socket)
 {
+  let game_id;
   console.log("New Player connected on PORT 8080: " + socket.id)
-  sendToGodot(socket.id, GD_CODE.connect)
+  console.log(socket)
+  // sendToGodot(socket.id, GD_CODE.connect)
 
   socket.on('gameid', join_game_by_id)
   socket.on('rotate', on_rotate)
   socket.on('disconnect', on_disconnect)
-  socket.on('bshoot', on_button_shoot)
-  socket.on('bshock', on_button_shock)
-  socket.on('baccel', on_button_accel)
+  socket.on('b1', on_button_1)
+  socket.on('b2', on_button_2)
+  socket.on('b3', on_button_3)
 
-  // each game is given its own Socket.IO channel
-  function join_game_by_id(id)
+  // each game is given its own Socket.IO room
+  function join_game_by_id(gid)
   {
-
+    // console.log("A user is attempting to connect to a game with id " + game_id)
+    if (games.has(gid)) {
+      game_id = gid
+      socket.join(game_id);
+      sendToGodot(game_id, socket.id, GD_CODE.connect)
+    } else {
+      // console.log("A user attempted to connect to a nonexistent game id (" + game_id + ")")
+      io.to(socket.id).emit("nonexistent_game")
+    }
   }
 
   function on_rotate(data)
@@ -113,30 +123,30 @@ function newConnection(socket)
     // let quat = get_quat(data, socket.id)
     // let msg = JSON.stringify(quat)
     let msg = JSON.stringify({id:socket.id, a:angle, t:tilt})
-    sendToGodot(msg, GD_CODE.rotate)
-    console.log(msg)
+    sendToGodot(game_id, msg, GD_CODE.rotate)
+    // console.log(msg)
   }
 
   function on_disconnect(reason)
   {
-    console.log("Disconnected: " + socket.id + " (reason: " + reason + ")")
-    sendToGodot(socket.id, GD_CODE.disconnect)
+    console.log("Player disconnected: " + socket.id + " (reason: " + reason + ")")
+    sendToGodot(game_id, socket.id, GD_CODE.disconnect)
   }
 
-  function on_button_shoot(data)
+  function on_button_1(data)
   {
       // console.log("BUTTON - shoot - " + data)
-      sendToGodot('{"n":"shoot","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"shoot","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
   }
-  function on_button_shock(data)
+  function on_button_2(data)
   {
       // console.log("BUTTON - shock - " + data)
-      sendToGodot('{"n":"shock","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"shock","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
   }
-  function on_button_accel(data)
+  function on_button_3(data)
   {
       // console.log("BUTTON - accel - " + data)
-      sendToGodot('{"n":"accel","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"accel","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
   }
 }
 
@@ -164,11 +174,8 @@ tcpServer.on('connection', socket => {
     // save host connection (will send all controller data to this socket)
     games.set(new_id, socket)
 
-    // legacy:
-    godotSocket = socket
-
     // send game id to host
-    sendToGodot(new_id, GD_CODE.send_game_id)
+    initializeGodot(new_id)
     // // send welcome message to host
     // socket.write("Welcome " + socket.name + "\n")
     // socket.write("You are the Godot Game host")
@@ -188,10 +195,19 @@ tcpServer.on('error', error => {
 })
 
 // SENDS data to Godot via TCP Socket generated with NET (upon running game in Godot)
-function sendToGodot(msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
+function sendToGodot(game_id, msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)
-  godotSocket.write(msg)
+  // godotSocket.write(msg)
+  if (games.has(game_id))
+    games.get(game_id).write(msg)
+  else
+    console.log("Server attempted to send message to unknown game (" + game_id + ")")
+}
+
+// Tell a Godot host about its game id
+function initializeGodot(game_id) {
+  sendToGodot(game_id, game_id, GD_CODE.send_game_id)
 }
 
 function get_quat(data, id)

@@ -1,0 +1,55 @@
+body {
+    margin: 1vh;
+    padding: 0;
+    background: #000
+}
+.grid {
+  display: grid;
+  margin: 0;
+  padding: 0;
+}
+.button {
+  margin: 1vh;
+  border-radius: 20px;
+}
+#b1 {
+  background: #0f0;
+}
+#b2 {
+  background: #088;
+}
+#b3 {
+  background: #04c;
+}
+#bstart {
+  opacity: .8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  height: 100%;
+  width: 100%;
+}
+#bstart-icon {
+  display: block;
+  margin: auto;
+  margin-top: 35vh;
+  height: 25vh;
+}
+
+@media (orientation: landscape) {
+  .button {
+    height: 96vh
+  }
+  .grid {
+    grid-template-columns: auto auto auto;
+  }
+}
+@media (orientation: portrait) {
+  .button {
+    height: 30.5vh
+  }
+  .grid {
+    grid-template-columns: auto;
+  }
+}
