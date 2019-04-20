@@ -219,9 +219,9 @@ function get_quat(data, id)
 }
 
 process.on('uncaughtException', function (err) {
-  if (err.errno != 'ECONNRESET')
-    throw err
-  else
+  // if (err.errno != 'ECONNRESET')
+  //   throw err
+  // else
     console.log("(Ignoring error) " + err)
 })
 
