@@ -1,3 +1,10 @@
+const https = require("https")
+const fs = require("fs");
+const options = {
+  key: fs.readFileSync("/keys/privkey.pem"),
+  cert: fs.readFileSync("/keys/fullchain.pem")
+};
+
 // Port for Players to Connect to:
 webPort = 8080
 // Port for Godot Game Hosts to connect to:
