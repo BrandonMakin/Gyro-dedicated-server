@@ -25,14 +25,15 @@ const os = require('os')
 // Hosts web-page (Player controller) and creates server that listens for Players
 let express = require('express')
 let app = express()
-let server = app.listen(webPort)
+app.listen(webPort)
 app.use(express.static('www'))
-https.createServer(options, app).listen(httpsPort);
+let server = https.createServer(options, app).listen(httpsPort);
 
 
 // High level framework for making asynchronus calls from Players interacting
 // with the web-page (controller)
 let socket = require('socket.io')
+// let io = socket(server)
 let io = socket(server)
 io.sockets.on('connection', on_connect)
 
