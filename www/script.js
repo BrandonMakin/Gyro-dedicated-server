@@ -38,16 +38,21 @@ function bEnd(bname) {
 }
 
 function onMotion(e) {
-  if (  Math.abs(data.x - e.beta ) > threshold ||
-        Math.abs(data.y - e.gamma) > threshold ||
-        Math.abs(data.z - e.alpha) > threshold )
+  var newData = {
+    x: e.beta,
+    y: e.gamma,
+    z: e.alpha
+  }
+  var threshold = 1
+  if (  abs(data.z - newData.z) > threshold ||
+         abs(data.y - newData.y) > threshold ||
+         abs(data.x - newData.x) > threshold )
   {
-    data = {
-      x: e.beta,
-      y: e.gamma,
-      z: e.alpha
-    }
+     // print("sending data")
+     data = newData;
      socket.emit('rotate', data);
+     print(data);
+  }
      // console.log("rotate: " + data.x + ", " + data.y + ", " + data.z)
   }
 }
