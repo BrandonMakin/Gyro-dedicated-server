@@ -44,9 +44,9 @@ function onMotion(e) {
     z: e.alpha
   }
   var threshold = 1
-  if (  abs(data.z - newData.z) > threshold ||
-         abs(data.y - newData.y) > threshold ||
-         abs(data.x - newData.x) > threshold )
+  if (  Math.abs(data.z - newData.z) > threshold ||
+         Math.abs(data.y - newData.y) > threshold ||
+         Math.abs(data.x - newData.x) > threshold )
   {
      // print("sending data")
      data = newData;
