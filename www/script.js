@@ -1,7 +1,6 @@
 let data = { x: 1000, y: 1000, z: 1000 } // deviceorientation data. Initial value is set to an impossible orientation value
 let gameID;
 let sendMessages = false;
-let threshold = 1;
 const socket = io({autoConnect: false});
 
 window.addEventListener("deviceorientation", onMotion, true);
