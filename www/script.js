@@ -51,7 +51,6 @@ function onMotion(e) {
      // print("sending data")
      data = newData;
      socket.emit('rotate', data);
-     print(data);
   }
      // console.log("rotate: " + data.x + ", " + data.y + ", " + data.z)
 }
