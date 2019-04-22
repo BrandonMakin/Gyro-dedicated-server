@@ -54,5 +54,4 @@ function onMotion(e) {
      print(data);
   }
      // console.log("rotate: " + data.x + ", " + data.y + ", " + data.z)
-  }
 }
