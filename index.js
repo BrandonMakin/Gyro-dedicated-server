@@ -134,7 +134,7 @@ function on_connect(socket)
     // let msg = JSON.stringify(quat)
     let msg = JSON.stringify({id:socket.id, a:angle, t:tilt})
     sendToGodot(game_id, msg, GD_CODE.rotate)
-    // console.log(msg)
+    console.log(msg)
   }
 
   function on_disconnect(reason)
@@ -208,6 +208,7 @@ tcpServer.on('error', error => {
 function sendToGodot(game_id, msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)
+  console.log(msg)
   // godotSocket.write(msg)
   if (games.has(game_id))
     games.get(game_id).write(msg)
