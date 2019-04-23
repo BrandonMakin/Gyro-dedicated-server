@@ -207,14 +207,22 @@ tcpServer.on('error', error => {
 
 // SENDS data to Godot via TCP Socket generated with NET (upon running game in Godot)
 function sendToGodot(game_id, msg, code) { //code must be a member of GD_CODE expected to be a digit between 0-9
+  if (!games.has(game_id)) {
+    // console.log("Server attempted to send message to unknown game (" + game_id + ")")
+    return
+  }
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)
-  // console.log(msg)
-  // godotSocket.write(msg)
-  if (games.has(game_id))
-    games.get(game_id).write(msg)
-  else
-    console.log("Server attempted to send message to unknown game (" + game_id + ")")
+  var bufferedMessageSize = new Buffer.alloc(4) //alloc 4 for an int32
+  bufferedMessageSize.writeUInt32BE(/*size of bufferedMessage*/ Buffer.byteLength(bufferedMessage))
+
+  // games.get(game_id).write(msg)
+
+  games.get(game_id).write(bufferedMessageSize)  // Send an int32 to tell the game the size of the upcoming bufferedMessage 
+  games.get(game_id).write(bufferedMessage)
+
+  // var buf = new Buffer.alloc(4);
+  // buf.writeUInt32BE(bint)
 }
 
 // Tell a Godot host about its game id
