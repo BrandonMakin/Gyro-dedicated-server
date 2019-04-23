@@ -214,11 +214,11 @@ function sendToGodot(game_id, msg, code) { //code must be a member of GD_CODE ex
   msg = "" + code + msg
   bufferedMessage = Buffer.from(msg)
   var bufferedMessageSize = new Buffer.alloc(4) //alloc 4 for an int32
-  bufferedMessageSize.writeUInt32BE(/*size of bufferedMessage*/ Buffer.byteLength(bufferedMessage))
+  bufferedMessageSize.writeUInt32LE(/*size of bufferedMessage*/ Buffer.byteLength(bufferedMessage))
 
   // games.get(game_id).write(msg)
 
-  games.get(game_id).write(bufferedMessageSize)  // Send an int32 to tell the game the size of the upcoming bufferedMessage 
+  games.get(game_id).write(bufferedMessageSize)  // Send an int32 to tell the game the size of the upcoming bufferedMessage
   games.get(game_id).write(bufferedMessage)
 
   // var buf = new Buffer.alloc(4);
