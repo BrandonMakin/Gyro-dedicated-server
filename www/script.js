@@ -5,7 +5,7 @@ const socket = io({autoConnect: false});
 
 var color_schemes = [
 	["#f59aa9", "#c74257", "#870b1f"],
-	["#4d3ab5", "#2e16b1", "#190a6b"],
+	["#6d5ad5", "#2e16b1", "#190a6b"],
 	["#ffff63", "#ffff00", "#c5c500"],
 	["#4abd9d", "#00a779", "#006549"],
 	["#e0a8ff", "#cf78ff", "#a90dff"],
@@ -28,14 +28,14 @@ function joinGame() {
 
 socket.on('connect', () => {
   console.log("Socket connected. Attempting to connect to game with ID " + gameID);
-  socket.emit("gameid", gameID);
+  socket.emit("gameid", gameID, sendMessages);  //send boolean sendMessages as a way to tell whether we had previously connected with this server
   sendMessages = true;
 });
 
 socket.on('nonexistent_game', () => {
   sendMessages = false;
   gameID = prompt("Unknown room id. Please try again.\nEnter your room id")
-  socket.emit("gameid", gameID);
+  socket.emit("gameid", gameID, false);
   sendMessages = true;
 })
 

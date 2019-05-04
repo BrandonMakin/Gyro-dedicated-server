@@ -71,18 +71,22 @@ function on_connect(socket)
   socket.on('b3', on_button_3)
 
   // each game is given its own Socket.IO room
-  function join_game_by_id(gid)
+  function join_game_by_id(gid, previously_connected)
   {
     // console.log("A user is attempting to connect to a game with id " + game_id)
     if (games.has(gid)) {
       game_id = gid
       socket.join(game_id);
       sendToGodot(game_id, socket.id, GD_CODE.connect)
-      var pcount = player_counts.get(gid)
-      io.to(socket.id).emit("color_scheme", pcount)
-      console.log("Player count before most recent player: " + pcount)
-      pcount += 1
-      player_counts.set(gid, pcount)
+
+      if (previously_connected == false) {
+        var pcount = player_counts.get(gid)
+        io.to(socket.id).emit("color_scheme", pcount)
+        console.log("Player count before most recent player: " + pcount)
+        pcount += 1
+        player_counts.set(gid, pcount)
+      }
+
     } else {
       // console.log("A user attempted to connect to a nonexistent game id (" + game_id + ")")
       io.to(socket.id).emit("nonexistent_game")
