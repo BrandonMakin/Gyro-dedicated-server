@@ -17,7 +17,7 @@ const player_counts = new Map()
 
 var godotSocket
 
-let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "send_game_id":7, "qr":8, "ping":9})
+let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "color_scheme":5, "send_game_id":7, "qr":8, "ping":9})
 
 console.log("Server is starting up...")
 
@@ -83,6 +83,8 @@ function on_connect(socket)
         var pcount = player_counts.get(gid)
         io.to(socket.id).emit("color_scheme", pcount)
         console.log("Player count before most recent player: " + pcount)
+        let msg = JSON.stringify({id:socket.id, "scheme":pcount})
+        sendToGodot(game_id, socket.id, GD_CODE.color_scheme)
         pcount += 1
         player_counts.set(gid, pcount)
       }
