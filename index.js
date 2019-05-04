@@ -60,7 +60,7 @@ function on_connect(socket)
 {
   let game_id;
   console.log("New Player connected on PORT 8080: " + socket.id)
-  console.log(socket)
+  // console.log(socket)
   // sendToGodot(socket.id, GD_CODE.connect)
 
   socket.on('gameid', join_game_by_id)
@@ -80,6 +80,7 @@ function on_connect(socket)
       sendToGodot(game_id, socket.id, GD_CODE.connect)
       var pcount = player_counts.get(gid)
       io.to(socket.id).emit("color_scheme", pcount)
+      console.log("Player count before most recent player: " + pcount)
       pcount += 1
       player_counts.set(gid, pcount)
     } else {

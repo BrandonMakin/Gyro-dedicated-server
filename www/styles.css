@@ -13,13 +13,16 @@ body {
   border-radius: 20px;
 }
 #b1 {
-  background: #0f0;
+  background: #555;
+  /* background: #0f0; */
 }
 #b2 {
-  background: #088;
+  background: #555;
+  /* background: #088; */
 }
 #b3 {
-  background: #04c;
+  background: #555;
+  /* background: #04c; */
 }
 #bstart {
   opacity: .8;
