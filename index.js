@@ -13,6 +13,8 @@ tcpPort = 8000
 
 // Map of all active games (Stores the Godot Game host IP addresses)
 const games = new Map()
+const player_counts = new Map()
+
 var godotSocket
 
 let GD_CODE = Object.freeze({"connect":1, "disconnect":2, "button":3, "rotate":4, "send_game_id":7, "qr":8, "ping":9})
@@ -76,6 +78,10 @@ function on_connect(socket)
       game_id = gid
       socket.join(game_id);
       sendToGodot(game_id, socket.id, GD_CODE.connect)
+      var pcount = player_counts.get(gid)
+      io.to(socket.id).emit("color_scheme", pcount)
+      pcount += 1
+      player_counts.set(gid, pcount)
     } else {
       // console.log("A user attempted to connect to a nonexistent game id (" + game_id + ")")
       io.to(socket.id).emit("nonexistent_game")
@@ -184,6 +190,7 @@ tcpServer.on('connection', socket => {
       return
     // save host connection (will send all controller data to this socket)
     games.set(new_id, socket)
+    player_counts.set(new_id, 0) // start counting the player count for this game
 
     // send game id to host
     initializeGodot(new_id)
