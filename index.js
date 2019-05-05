@@ -78,22 +78,23 @@ function on_connect(socket)
     if (games.has(gid)) {
       game_id = gid
       socket.join(game_id);
-      sendToGodot(game_id, color_id, GD_CODE.connect)
 
       if (previously_connected == false) {
         var pcount = player_counts.get(gid)
         color_id = pcount
         io.to(socket.id).emit("color_scheme", pcount)
         console.log("Player count before most recent player: " + pcount)
-        let msg = JSON.stringify({id:color_id, scheme:pcount})
-        sendToGodot(game_id, msg, GD_CODE.color_scheme)
+        // let msg = JSON.stringify({id:color_id, scheme:pcount})
+        // sendToGodot(game_id, msg, GD_CODE.color_scheme)
         pcount += 1
         player_counts.set(gid, pcount)
       } else {
         color_id = color_scheme
-        let msg = JSON.stringify({id:color_id, scheme:color_scheme})
-        sendToGodot(game_id, msg, GD_CODE.color_scheme)
+        // let msg = JSON.stringify({id:color_id, scheme:color_scheme})
+        // sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
+      
+      sendToGodot(game_id, color_id, GD_CODE.connect)
 
     } else {
       // console.log("A user attempted to connect to a nonexistent game id (" + game_id + ")")
