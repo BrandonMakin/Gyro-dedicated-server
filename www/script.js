@@ -19,6 +19,11 @@ var color_schemes = [
 
 window.addEventListener("deviceorientation", onMotion, true);
 
+// Removes ability to drag window with touch gesture
+document.ontouchmove = function(event){
+  event.preventDefault();
+}
+
 function joinGame() {
   let element = document.getElementById("bstart")
   element.parentNode.removeChild(element);
