@@ -31,6 +31,9 @@ body {
   background: #555;
   /* background: #04c; */
 }
+.invisible {
+  opacity: 0;
+}
 #bstart {
   /* opacity: .8; */
   position: fixed;
@@ -53,13 +56,13 @@ body {
     width: 27vw;
     top: 2vh;
   }
-  #b1 {
+  .b1 {
     left:2vw;
   }
-  #b2 {
+  .b2 {
     left:31vw;
   }
-  #b3 {
+  .b3 {
     left:60vw;
   }
   .button-icons {
@@ -80,13 +83,13 @@ body {
     height: 27vh;
     left: 2vw;
   }
-  #b1 {
+  .b1 {
     top:2vh;
   }
-  #b2 {
+  .b2 {
     top:31vh;
   }
-  #b3 {
+  .b3 {
     top:60vh;
   }
   .button-icons {
