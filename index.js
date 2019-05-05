@@ -93,7 +93,7 @@ function on_connect(socket)
         // let msg = JSON.stringify({id:color_id, scheme:color_scheme})
         // sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
-      
+      var msg = JSON.stringify({id:color_id})
       sendToGodot(game_id, color_id, GD_CODE.connect)
 
     } else {
