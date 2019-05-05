@@ -85,13 +85,13 @@ function on_connect(socket)
         color_id = pcount
         io.to(socket.id).emit("color_scheme", pcount)
         console.log("Player count before most recent player: " + pcount)
-        let msg = JSON.stringify({id:socket.id, scheme:pcount})
+        let msg = JSON.stringify({id:color_id, scheme:pcount})
         sendToGodot(game_id, msg, GD_CODE.color_scheme)
         pcount += 1
         player_counts.set(gid, pcount)
       } else {
         color_id = color_scheme
-        let msg = JSON.stringify({id:socket.id, scheme:color_scheme})
+        let msg = JSON.stringify({id:color_id, scheme:color_scheme})
         sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
 
