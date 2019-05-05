@@ -42,6 +42,7 @@ socket.on('nonexistent_game', () => {
 
 socket.on('color_scheme', set_color_scheme)
 function set_color_scheme(scheme_id) {
+  color_scheme = scheme_id
   document.getElementById("b1").style.background = color_schemes[scheme_id][0]
   document.getElementById("b2").style.background = color_schemes[scheme_id][1]
   document.getElementById("b3").style.background = color_schemes[scheme_id][2]
