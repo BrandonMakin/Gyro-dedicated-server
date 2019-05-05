@@ -83,7 +83,7 @@ function on_connect(socket)
         var pcount = player_counts.get(gid)
         io.to(socket.id).emit("color_scheme", pcount)
         console.log("Player count before most recent player: " + pcount)
-        let msg = JSON.stringify({id:socket.id, "scheme":pcount})
+        let msg = JSON.stringify({id:socket.id, scheme:pcount})
         sendToGodot(game_id, msg, GD_CODE.color_scheme)
         pcount += 1
         player_counts.set(gid, pcount)
@@ -97,7 +97,7 @@ function on_connect(socket)
 
   function on_rotate(data)
   {
-    console.log(data)
+    // console.log(data)
     // Orientations: x=beta, y=gamma, z=alpha
     // Ignore alpha, only use gamma to determine correct adjustment for beta
     let angle = data.x
