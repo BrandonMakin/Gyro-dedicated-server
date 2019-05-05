@@ -71,7 +71,7 @@ function on_connect(socket)
   socket.on('b3', on_button_3)
 
   // each game is given its own Socket.IO room
-  function join_game_by_id(gid, previously_connected)
+  function join_game_by_id(gid, previously_connected, color_scheme)
   {
     // console.log("A user is attempting to connect to a game with id " + game_id)
     if (games.has(gid)) {
@@ -87,6 +87,9 @@ function on_connect(socket)
         sendToGodot(game_id, msg, GD_CODE.color_scheme)
         pcount += 1
         player_counts.set(gid, pcount)
+      } else {
+        let msg = JSON.stringify({id:socket.id, scheme:color_scheme})
+        sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
 
     } else {

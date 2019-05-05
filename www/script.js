@@ -2,6 +2,7 @@ let data = { x: 1000, y: 1000, z: 1000 } // deviceorientation data. Initial valu
 let gameID;
 let sendMessages = false;
 const socket = io({autoConnect: false});
+var color_scheme = -1
 
 var color_schemes = [
 	["#f59aa9", "#c74257", "#870b1f"],
@@ -28,7 +29,7 @@ function joinGame() {
 
 socket.on('connect', () => {
   console.log("Socket connected. Attempting to connect to game with ID " + gameID);
-  socket.emit("gameid", gameID, sendMessages);  //send boolean sendMessages as a way to tell whether we had previously connected with this server
+  socket.emit("gameid", gameID, sendMessages, color_scheme);  //send boolean sendMessages as a way to tell whether we had previously connected with this server
   sendMessages = true;
 });
 
