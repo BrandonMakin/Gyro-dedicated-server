@@ -60,7 +60,7 @@ function on_connect(socket)
 {
   let game_id;
   let color_id;
-  console.log("New Player connected on PORT 8080: " + socket.id)
+  console.log("New Player connected on PORT 8080: " + socket.id + " / " + color_id)
   // console.log(socket)
   // sendToGodot(color_id, GD_CODE.connect)
 
@@ -152,14 +152,14 @@ function on_connect(socket)
     // // Uncomment to get a quaternion:
     // let quat = get_quat(data, socket.id)
     // let msg = JSON.stringify(quat)
-    let msg = JSON.stringify({id:socket.id, a:angle, t:tilt})
+    let msg = JSON.stringify({id:color_id, a:angle, t:tilt})
     sendToGodot(game_id, msg, GD_CODE.rotate)
     // console.log(msg)
   }
 
   function on_disconnect(reason)
   {
-    console.log("Player disconnected: " + socket.id + " (reason: " + reason + ")")
+    console.log("Player disconnected: " + socket.id + " / " + color_id + " (reason: " + reason + ")")
     sendToGodot(game_id, color_id, GD_CODE.disconnect)
   }
 
