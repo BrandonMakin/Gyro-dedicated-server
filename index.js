@@ -59,9 +59,10 @@ app.get("/start", function(req, res)
 function on_connect(socket)
 {
   let game_id;
+  let color_id;
   console.log("New Player connected on PORT 8080: " + socket.id)
   // console.log(socket)
-  // sendToGodot(socket.id, GD_CODE.connect)
+  // sendToGodot(color_id, GD_CODE.connect)
 
   socket.on('gameid', join_game_by_id)
   socket.on('rotate', on_rotate)
@@ -77,10 +78,11 @@ function on_connect(socket)
     if (games.has(gid)) {
       game_id = gid
       socket.join(game_id);
-      sendToGodot(game_id, socket.id, GD_CODE.connect)
+      sendToGodot(game_id, color_id, GD_CODE.connect)
 
       if (previously_connected == false) {
         var pcount = player_counts.get(gid)
+        color_id = pcount
         io.to(socket.id).emit("color_scheme", pcount)
         console.log("Player count before most recent player: " + pcount)
         let msg = JSON.stringify({id:socket.id, scheme:pcount})
@@ -88,6 +90,7 @@ function on_connect(socket)
         pcount += 1
         player_counts.set(gid, pcount)
       } else {
+        color_id = color_scheme
         let msg = JSON.stringify({id:socket.id, scheme:color_scheme})
         sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
@@ -157,23 +160,23 @@ function on_connect(socket)
   function on_disconnect(reason)
   {
     console.log("Player disconnected: " + socket.id + " (reason: " + reason + ")")
-    sendToGodot(game_id, socket.id, GD_CODE.disconnect)
+    sendToGodot(game_id, color_id, GD_CODE.disconnect)
   }
 
   function on_button_1(data)
   {
       // console.log("BUTTON - shoot - " + data)
-      sendToGodot(game_id, '{"n":"shoot","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"shoot","s":"' + data + '","i":"' + color_id + '"}', GD_CODE.button)
   }
   function on_button_2(data)
   {
       // console.log("BUTTON - shock - " + data)
-      sendToGodot(game_id, '{"n":"shock","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"shock","s":"' + data + '","i":"' + color_id + '"}', GD_CODE.button)
   }
   function on_button_3(data)
   {
       // console.log("BUTTON - accel - " + data)
-      sendToGodot(game_id, '{"n":"accel","s":"' + data + '","i":"' + socket.id + '"}', GD_CODE.button)
+      sendToGodot(game_id, '{"n":"accel","s":"' + data + '","i":"' + color_id + '"}', GD_CODE.button)
   }
 }
 
