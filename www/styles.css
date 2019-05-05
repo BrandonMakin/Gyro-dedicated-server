@@ -51,17 +51,17 @@ body {
   .button {
     margin: 0;
     height: 96vh;
-    width: 28.7vw;
+    width: 27vw;
     top: 2vh;
   }
   #b1 {
     left:2vw;
   }
   #b2 {
-    left:35vw;
+    left:31vw;
   }
   #b3 {
-    left:65vw;
+    left:60vw;
   }
   .button-icons {
     width: 100%;
@@ -77,17 +77,17 @@ body {
   .button {
     margin: 0;
     width: 96vw;
-    height: 28.7vh;
+    height: 27vh;
     left: 2vw;
   }
   #b1 {
     top:2vh;
   }
   #b2 {
-    top:32vh;
+    top:31vh;
   }
   #b3 {
-    top:62vh;
+    top:60vh;
   }
   .button-icons {
     height: 100%;
