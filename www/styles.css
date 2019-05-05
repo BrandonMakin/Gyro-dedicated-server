@@ -49,19 +49,19 @@ body {
 
 @media (orientation: landscape) {
   .button {
-    margin: 1vh;
+    margin: 0;
     height: 96vh;
-    width: 32vw;
-    top:1vh;
+    width: 28.7vw;
+    top: 2vh;
   }
   #b1 {
-    left:1.5vh;
+    left:5vw;
   }
   #b2 {
-    left:33.5vw;
+    left:35vw;
   }
   #b3 {
-    left:66.4vw;
+    left:65vw;
   }
   .button-icons {
     width: 100%;
@@ -75,19 +75,19 @@ body {
 }
 @media (orientation: portrait) {
   .button {
-    margin: 1vw;
+    margin: 0;
     width: 96vw;
-    height: 32vh;
-    left: 1vw;
+    height: 28.7vh;
+    left: 2vw;
   }
   #b1 {
-    top: 1.5vw;
+    top:5vh;
   }
   #b2 {
-    top: 33.5vh;
+    top:35vh;
   }
   #b3 {
-    top: 66.4vh;
+    top:65vh;
   }
   .button-icons {
     height: 100%;
