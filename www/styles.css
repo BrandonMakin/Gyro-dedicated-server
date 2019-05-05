@@ -44,7 +44,6 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @media (orientation: landscape) {
@@ -71,6 +70,7 @@ body {
   }
   #bstart-icon {
     height: 100vh;
+    transform: translate(-50%, -50%);
   }
 }
 @media (orientation: portrait) {
@@ -93,9 +93,10 @@ body {
     height: 100%;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(90deg);
   }
   #bstart-icon {
     width: 100vw;
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }
