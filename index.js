@@ -93,8 +93,7 @@ function on_connect(socket)
         // let msg = JSON.stringify({id:color_id, scheme:color_scheme})
         // sendToGodot(game_id, msg, GD_CODE.color_scheme)
       }
-      var msg = JSON.stringify({id:color_id})
-      sendToGodot(game_id, color_id, GD_CODE.connect)
+      sendToGodot(game_id, '"id":' + color_id, GD_CODE.connect)
 
     } else {
       // console.log("A user attempted to connect to a nonexistent game id (" + game_id + ")")
