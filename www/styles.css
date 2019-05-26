@@ -68,8 +68,13 @@ body {
   .button-icons {
     width: 100%;
     position: absolute;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
+  }
+  .button-text {
+    width:100%;
+    position: absolute;
+    top:5%;
   }
   #bstart-icon {
     height: 100vh;
@@ -97,6 +102,13 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%) rotate(90deg);
+  }
+  .button-text {
+    top: 10vh;
+    max-width:27vh;
+    position: absolute;
+    left: 60%;
+    transform: rotate(90deg);
   }
   #bstart-icon {
     width: 100vw;
