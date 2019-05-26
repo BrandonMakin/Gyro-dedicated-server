@@ -51,6 +51,14 @@ function set_color_scheme(scheme_id) {
   document.getElementById("b1").style.background = color_schemes[scheme_id][0]
   document.getElementById("b2").style.background = color_schemes[scheme_id][1]
   document.getElementById("b3").style.background = color_schemes[scheme_id][2]
+
+	if ([0,1,7].includes(color_scheme)) {
+		console.log("cake");
+		document.documentElement.style.setProperty("--inversion", 1)
+	}
+	else {
+		document.documentElement.style.setProperty("--inversion", 0)
+	}
 }
 
 function bStart(bname) {

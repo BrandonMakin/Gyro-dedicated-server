@@ -19,6 +19,9 @@ body {
   position: fixed;
   border-radius: 20px;
 }
+.iconography {
+  filter: invert(var(--inversion));
+}
 #b1 {
   background: #555;
   /* background: #0f0; */
